@@ -6,13 +6,17 @@ var server = http.createServer(function (req, res) {
 	res.end('Hello Http');
 });
 
-
 var mysql = require('mysql');
 
-var con = mysql.createConnection({
-	host: "localhost",
-	user: "yourusername",
-	password: "yourpassword"
+var client = mysql.createClient();
+client.host = '127.0.0.1';
+client.port = '3306';
+client.user = 'someuser';
+client.password = 'userpass';
+client.database = 'node';
+
+client.query('SELECT * FROM users', function (error, result, fields) {
+	console.log(result);
 });
 
 con.connect(function (err) {
