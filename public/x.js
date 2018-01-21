@@ -1,3 +1,5 @@
+import { eventNames } from "cluster";
+
 'use strict';
 var AVM;
 
@@ -35,17 +37,33 @@ function post() {
 	});
 }
 
+function listx() {
+	$.getJSON("/listx", (data) => {
+		var eventt1 = $("#eventt1");
+		eventt1.text(JSON.stringify(data));
+	});
+}
+
+var gs = ['|', '/', '-', '\\'];
+gs.i = 0;
+gs.N = function() { return this[(++this.i) % this.length]; };
+
+function Ex() {
+	$.getJSON("/ex", (data) => {
+		var eventt = $("#eventt");
+		eventt.removeClass("run-animation");
+		eventt.text(gs.N() + JSON.stringify(data));
+		eventt.addClass("run-animation");
+		listx();
+		UpdateList();
+		setTimeout(Ex, 0);
+	});
+}
+
 $(document).ready(() => {
 	AVM = new AppViewModel();
 	ko.applyBindings(AVM);
 
 	UpdateList();
-	newFunction();
+	Ex();
 });
-
-function newFunction() {
-	$.getJSON("/ex", (data) => {
-		UpdateList();
-		setTimeout(newFunction, 0);
-	});
-}

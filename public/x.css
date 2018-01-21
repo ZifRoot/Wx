@@ -6,6 +6,17 @@ body {
 	/* display: none; */
 }
 
+@keyframes my-animation {
+	from {
+		background-color: red;
+	}
+	to {}
+}
+
+.run-animation {
+	animation: my-animation 1s ease;
+}
+
 table.darkTable {
 	font-family: Georgia, serif;
 	background-color: #4A4A4A;

@@ -6,7 +6,7 @@ const config = {
 	password: '123',
 	database: 'db1'
 };
-const TimeoutLen = 5000;
+const TimeoutLen = 1000;
 
 console.log("-");
 
@@ -25,6 +25,10 @@ var G_Eventer = { timer: null, ips: [] };
 
 function timeout_init() {
 	G_Eventer.timer = G_Eventer.timer || setTimeout(() => timeout__ev(), TimeoutLen);
+}
+
+function ipst() {
+	return Object.keys(G_Eventer.ips).map((a) => { return { ip: a, num: G_Eventer.ips[a].l.length } });
 }
 
 function eventx(a) {
@@ -89,8 +93,12 @@ app.get('/list', function(req, res) {
 			return;
 		}
 		const x = JSON.stringify(results);
-		res.send(x);
+		res.end(x);
 	});
+});
+
+app.get('/listx', function(req, res) {
+	res.send(JSON.stringify(ipst()));
 });
 
 const sql = "INSERT INTO tb1 SET ?";
@@ -110,7 +118,7 @@ app.post('/post', require('body-parser').urlencoded({ extended: false }), functi
 
 	connection.query(sql, { user: ip, text: req.body.text }, function(err, result) {
 		if (err) { res.send(err); throw err; }
-		res.send("" + result.affectedRows, 200);
+		res.send("" + result.affectedRows);
 		eventD([{ a: 2, ip: ip }]);
 	});
 });
