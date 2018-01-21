@@ -1,18 +1,19 @@
-import { clearTimeout } from 'timers';
-
 'use strict';
+const port = 18080;
+const config = {
+	host: 'localhost',
+	user: 'user1',
+	password: '123',
+	database: 'db1'
+};
+const TimeoutLen = 5000;
+
 console.log("-");
 
 const mysql = require('mysql');
-var config = {};
-const port = 18080;
-config.host = 'localhost';
-config.user = 'user1';
-config.password = '123';
-config.database = 'db1';
+const express = require("express");
 
-var connection = mysql.createConnection(config);
-var express = require("express");
+const connection = mysql.createConnection(config);
 const app = express();
 
 app.get('/h', function(req, res) {
@@ -20,24 +21,38 @@ app.get('/h', function(req, res) {
 });
 
 /*Общий ожидатель */
-var G_Eventer = { timer: null, ips: [], list: [] };
+var G_Eventer = { timer: null, ips: [] };
 
 function timeout_init() {
-	G_Eventer.timer = setTimeout(() => timeout__ev(), 5000);
+	G_Eventer.timer = G_Eventer.timer || setTimeout(() => timeout__ev(), TimeoutLen);
 }
 
 function eventx(a) {
-	var keys = Object.keys(obj);
-	var A = G_Eventer.list;
-	while (A.length > 0) {
-		A.pop().fn(a);
+	const now = Date.now() - TimeoutLen * 2;
+	var ips = Object.keys(G_Eventer.ips);
+	for (let i = 0; i < ips.length; i++) {
+		const ip = ips[i];
+		const x = G_Eventer.ips[ip];
+		if (x.l.length === 0 && x.dt < now) {
+			delete G_Eventer.ips[ip];
+			a.push({ a: 3, ip: ip });
+		}
 	}
+	console.log(JSON.stringify(a));
+	ips = Object.keys(G_Eventer.ips);
+	for (let i = 0; i < ips.length; i++) {
+		const A = G_Eventer.ips[ips[i]].l;
+		while (A.length > 0) {
+			A.pop()(a);
+		}
+	}
+	return ips.length > 0;
 }
 
 function timeout__ev() {
 	G_Eventer.timer = null;
-	eventx([]);
-	timeout_init();
+	if (eventx([]))
+		timeout_init();
 }
 
 function Init_ev() {
@@ -46,25 +61,24 @@ function Init_ev() {
 
 function eventD(a) {
 	if (G_Eventer.timer) clearTimeout(G_Eventer.timer);
-	eventx(a);
-	timeout_init();
+	if (eventx(a))
+		timeout_init();
 }
 
 function Up(ip, fn) {
 	if (G_Eventer.ips[ip] === undefined) {
 		//connect new ip		
 		eventD([{ a: 1, ip: ip }]);
+		timeout_init();
 		G_Eventer.ips[ip] = { l: [] };
 	}
 	G_Eventer.ips[ip].dt = Date.now();
-	G_Eventer.ips[ip].l[] = fn;
+	G_Eventer.ips[ip].l.push(fn);
 }
 
 app.get('/ex', function(req, res) {
-	var ip = IP(req);
-	Up(ip, (a) => {
-		res.end(' Hello Http ' + JSON.stringify(a) + Date.now());
-	});
+	const ip = IP(req);
+	Up(ip, (a) => res.send(JSON.stringify(a)));
 });
 
 /*API */
@@ -74,12 +88,12 @@ app.get('/list', function(req, res) {
 			throw error;
 			return;
 		}
-		var x = JSON.stringify(results);
+		const x = JSON.stringify(results);
 		res.send(x);
 	});
 });
 
-var sql = "INSERT INTO tb1 SET ?";
+const sql = "INSERT INTO tb1 SET ?";
 
 function IP(req) {
 	return req.connection.remoteAddress;

@@ -5,6 +5,7 @@
     "express": "^4.16.2",
     "mongodb": "^3.0.1",
     "nconf": "^0.10.0",
-    "node-static": "^0.7.10"
+    "node-static": "^0.7.10",
+    "sequelize": "^4.31.2"
   }
 }

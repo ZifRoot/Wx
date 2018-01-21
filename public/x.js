@@ -1,27 +1,10 @@
 'use strict';
-
-var ttt = new ko.observableArray([
-	// { name: 'Bert' },
-	// { name: 'Charles' },
-	// { name: 'Denise' }
-]);
-ttt.push({ d: "" });
-var gg = ttt.length;
-
 var AVM;
 
 function AppViewModel() {
 	var self = this;
 
-	self.people = ko.observableArray([
-		// { name: 'Bert' },
-		// { name: 'Charles' },
-		// { name: 'Denise' }
-	]);
-
-	self.addPerson = function() {
-		self.people.push({ name: "New at " + new Date() });
-	};
+	self.people = ko.observableArray([]);
 
 	self.AddX = function(a) {
 		for (let index = 0; index < self.people().length; index++) {
@@ -48,9 +31,8 @@ function UpdateList() {
 
 function post() {
 	$.post('/post', $('#theForm').serialize(), (e, p) => {
-		var d = 0;
+		UpdateList();
 	});
-	//	alert("xdf");
 }
 
 $(document).ready(() => {
@@ -58,39 +40,12 @@ $(document).ready(() => {
 	ko.applyBindings(AVM);
 
 	UpdateList();
-
-	$.get();
-	//	var listx = document.querySelector("#listx");
-
-	//.innerText = "sdfdf";
-	//$("#listx")
+	newFunction();
 });
 
-
-
-
-/*
-function tick() {
-  var element = React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'h1',
-      null,
-      'Hello, world!'
-    ),
-    React.createElement(
-      'h2',
-      null,
-      'It is',
-      ' ',
-      new Date().toLocaleTimeString(),
-      '.'
-    )
-  );
-  // highlight-range{1-4}
-  ReactDOM.render(element, document.getElementById('root'));
+function newFunction() {
+	$.getJSON("/ex", (data) => {
+		UpdateList();
+		setTimeout(newFunction, 0);
+	});
 }
-
-setInterval(tick, 1000);
-*/

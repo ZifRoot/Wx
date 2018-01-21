@@ -14,61 +14,29 @@
 	</head>
 
 	<body>
-		3212
-		<span onclick="post();">Отправить</span>
-		<div></div>
+		<div>
+			<button onclick="post();">Отправить</button>
+		</div>
 		<form id="theForm">
 			<textarea name="text"></textarea>
 		</form>
-		<span onclick="UpdateList();">Обновить</span>
-		<div>
-			<h4>People</h4>
-			<ul data-bind="foreach: people">
-				<li>
-					Name at position <span data-bind="text: $index"> </span>:
-					<span data-bind="text: user"> </span>
-					<span>  |  </span>
-					<span data-bind="text: text"> </span>
-					<a href="#" data-bind="click: $parent.removePerson">Remove</a>
-				</li>
-			</ul>
-			<button data-bind="click: addPerson">Add</button>
-		</div>
+		<div><button onclick="UpdateList();">Обновить</button></div>
 		<table class="darkTable" datax="listx">
 			<thead>
 				<tr>
-					<th>head1</th>
-					<th>head2</th>
-					<th>head3</th>
-					<th>head4</th>
-					<th>head5</th>
-					<th>head6</th>
+					<th>#</th>
+					<th>User</th>
+					<th>Text</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody data-bind="foreach: people">
 				<tr>
-					<td>cell1_1</td>
-					<td>cell2_1</td>
-					<td>cell3_1</td>
-					<td>cell4_1</td>
-					<td>cell5_1</td>
-					<td>cell6_1</td>
-				</tr>
-				<tr>
-					<td>cell1_2</td>
-					<td>cell2_2</td>
-					<td>cell3_2</td>
-					<td>cell4_2</td>
-					<td>cell5_2</td>
-					<td>cell6_2</td>
+					<td data-bind="text: $index"></td>
+					<td data-bind="text: user"></td>
+					<td data-bind="text: text"></td>
 				</tr>
 			</tbody>
 		</table>
-		<div id="listx">
-			<div class="temp" data-template="listx" data-item="i">
-				<span>xvb</span><span>xvb</span>
-			</div>
-		</div>
 	</body>
 
 </html>
