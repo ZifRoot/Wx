@@ -56,7 +56,7 @@ function Xjs() {
 	this.AVM = new AppViewModel();
 	ko.applyBindings(this.AVM);
 	this.idEvent = -1;
-	UpdateList();
+	this.UpdateList();
 	Ex();
 }
 
