@@ -1,4 +1,25 @@
 console.log("bmmjb");
+
+const Sequelize = require("sequelize");
+
+const sequelize = new Sequelize('db1', 'user1', '123', { host: 'localhost', dialect: 'mysql' });
+
+const Record = sequelize.define('Record', {
+	user: Sequelize.STRING,
+	text: Sequelize.TEXT
+});
+Record.findAll().then(a => a.)
+sequelize.sync()
+	.then(() => Record.create({
+		user: 'janedoe',
+		text: "chvjbklgbfnghb"
+	}))
+	.then(jane => {
+		console.log(jane.toJSON());
+	});
+
+console.log("_____");
+return;
 //NodeJS.Timer
 setTimeout(() => console.log("1"), 1000);
 const fs = require('fs');
@@ -45,4 +66,18 @@ var server = http.createServer(function(req, res) {
 //connection.connect();
 server.listen(18080);
 
+
+function newFunction() {
+	const pg = require('pg');
+	const connectionString = 'postgres://192.168.0.101:5432/todo';
+	const client = new pg.Client({
+		host: '192.168.0.101',
+		user: "user1",
+		password: "123",
+		database: "db1"
+	});
+	client.connect();
+	client.query('select 1 as f').then((k) => console.log(JSON.stringify(k)));
+	console.log("_____");
+}
 //connection.end();

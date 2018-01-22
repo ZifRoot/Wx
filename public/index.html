@@ -6,9 +6,9 @@
 		<title>Page Title</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" media="screen" href="x.css" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="jquery.min.js"></script>
 		<!-- <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script> -->
-		<script type='text/javascript' src='http://knockoutjs.com/downloads/knockout-3.4.2.debug.js'></script>
+		<script type='text/javascript' src='knockout-min.js'></script>
 
 		<script src="x.js"></script>
 	</head>
@@ -20,20 +20,37 @@
 		<form id="theForm">
 			<textarea name="text"></textarea>
 		</form>
-		<div>Event:<span id="eventt"></span>|<span id="eventt1"></span></div>
-
-		<div><button onclick="UpdateList();">Обновить</button></div>
-		<table class="darkTable" datax="listx">
+		<div>Event:<span id="eventt"></span><br/>R:<span id="eventt1"></span></div>
+		<div><span>Список пользователей в чате</span></div>
+		<table class="darkTable">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>User</th>
-					<th>Text</th>
+					<th>Имя пользователя</th>
+					<th>Кол. соединений</th>
+					<th>Дата подключения</th>
 				</tr>
 			</thead>
-			<tbody data-bind="foreach: people">
+			<tbody data-bind="foreach: logins">
 				<tr>
-					<td data-bind="text: $index"></td>
+					<td data-bind="text: $data.Login"></td>
+					<td data-bind="text: $data.numConnection"></td>
+					<td data-bind="text: $data.LastDate"></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div><button onclick="UpdateList();">Обновить</button><span>Список сообщений</span></div>
+		<table class="darkTable">
+			<thead>
+				<tr>
+					<th>Время</th>
+					<th>Имя пользователя</th>
+					<th>Текст</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: records">
+				<tr>
+					<td data-bind="text: createdAt"></td>
 					<td data-bind="text: user"></td>
 					<td data-bind="text: text"></td>
 				</tr>
