@@ -57,7 +57,7 @@ function Xjs() {
 	ko.applyBindings(this.AVM);
 	this.idEvent = -1;
 	this.UpdateList();
-	Ex();
+	this.Ex();
 }
 
 Xjs.prototype.UpdateList = function() {
