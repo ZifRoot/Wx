@@ -26,20 +26,20 @@
 			<thead>
 				<tr>
 					<th>Имя пользователя</th>
-					<th>Кол. соединений</th>
-					<th>Дата подключения</th>
+					<!-- <th>Кол. соединений</th>
+					<th>Дата подключения</th> -->
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: logins">
 				<tr>
 					<td data-bind="text: $data.Login"></td>
-					<td data-bind="text: $data.numConnection"></td>
-					<td data-bind="text: $data.LastDate"></td>
+					<!-- <td data-bind="text: $data.numConnection"></td>
+					<td data-bind="text: $data.LastDate"></td> -->
 				</tr>
 			</tbody>
 		</table>
 
-		<div><button onclick="UpdateList();">Обновить</button><span>Список сообщений</span></div>
+		<div><button onclick="xjs.UpdateList();">Обновить</button><span>Список сообщений</span></div>
 		<table class="darkTable">
 			<thead>
 				<tr>

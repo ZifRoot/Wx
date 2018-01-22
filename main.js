@@ -32,7 +32,11 @@ app
 /*APIs */
 app
 	.get('/list', (req, res) => Record.findAll().then(a => res.end(JSON.stringify(a))))
-	.get('/list_login', (req, res) => res.send(JSON.stringify(g_event.list_login())))
+	.get('/list_login', (req, res) => {
+		const x = g_event.list_login();
+		console.log(x);
+		res.send(JSON.stringify(x));
+	})
 	.post('/post', bodyParser.urlencoded({ extended: false }),
 		function(req, res) {
 			if (!req.body || req.body.text === undefined) return res.sendStatus(400);
