@@ -76,12 +76,12 @@ Xjs.prototype.listx = function() {
 Xjs.prototype.Waiter = function() {
 	$.getJSON("/waiter", (data) => {
 
-		if (data.some(a => a.Action === 2)) this.UpdateList(); //3: отправка сообщения
+		if (data.some(a => a.Action === 2)) this.UpdateList(); //2: отправка сообщения
 		if (data.some(a => a.Action === 0 || a.Action === 1)) this.listx();
 
 		data.forEach(a => {
 			if (a.Action >= 0 && a.Action < RuText.length)
-				this.AVM.AddRecords({ id: --this.idEvent, createdAt: Date.now(), user: a.Login, text: RuText[a.Action] });
+				this.AVM.AddRecords({ id: --this.idEvent, createdAt: Date.now().toString(), user: a.Login, text: RuText[a.Action] });
 		});
 
 		setTimeout(() => this.Waiter(), 0);
